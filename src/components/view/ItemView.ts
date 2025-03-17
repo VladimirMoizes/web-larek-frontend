@@ -24,17 +24,6 @@ export class ItemView extends Component<IItem> {
 	) {
 		super(container);
 
-		// РАЗОБРАТЬСЯ, ПОЧЕМУ НЕ РАБОТАЕТ
-		// this._description = ensureElement<HTMLParagraphElement>(
-		// 	'.card__text',
-		// 	container
-		// );
-		// this._image = ensureElement<HTMLImageElement>('.card__image', container);
-		// this._title = ensureElement<HTMLElement>('.card__title', container);
-		// this._category = ensureElement<HTMLElement>('.card__category', container);
-		// this._price = ensureElement<HTMLElement>('.card__price', container);
-		// this._button = ensureElement<HTMLButtonElement>('.card__button', container);
-
 		this._description = container.querySelector('.card__text');
 		this._image = container.querySelector('.card__image');
 		this._title = container.querySelector('.card__title');
@@ -95,11 +84,19 @@ export class ItemView extends Component<IItem> {
 		}
 	}
 
-	set button(inBasket: boolean) {
+	// Переделал метод. До этого товар с ценой "Бесценно" можно
+	// было добавить в корзину с ценой ноль. При отправке на сервер возникала ошибка
+	setButton(inBasket: boolean, price: number | null) {
 		if (inBasket) {
 			this.setText(this._button, 'Убрать');
+			this.setDisabled(this._button, false);
 		} else {
-			this.setText(this._button, 'В корзину');
+			if (price === null) {
+				this.setDisabled(this._button, true);
+			} else {
+				this.setText(this._button, 'В корзину');
+				this.setDisabled(this._button, false);
+			}
 		}
 	}
 

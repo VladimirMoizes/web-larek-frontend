@@ -1,14 +1,16 @@
 import { IAppModel, IItem } from '../../types';
 import { Model } from '../base/Model';
 import { BasketModel } from './BasketModel';
-import { ItemModel } from './ItemModel';
+// import { ItemModel } from './ItemModel';
 
 export class AppModel extends Model<IAppModel> {
 	itemList: IItem[];
 	preview: string | null;
 
 	setCatalog(items: IItem[]) {
-		this.itemList = items.map((item) => new ItemModel(item, this.events));
+		this.itemList = items.map((item) => {
+			return item
+		});
 		this.emitChanges('items:loaded', { catalog: this.itemList });
 	}
 

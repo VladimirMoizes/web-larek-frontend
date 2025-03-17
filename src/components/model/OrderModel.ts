@@ -1,34 +1,32 @@
-import { FormErrors, IOrder, IOrderForm } from '../../types';
+import { FormErrors, IOrderForm } from '../../types';
 import { Model } from '../base/Model';
 
-export class OrderModel extends Model<IOrder> {
-	order: IOrder = {
+export class OrderModel extends Model<IOrderForm> {
+	order: IOrderForm = {
 		payment: '',
 		address: '',
 		email: '',
 		phone: '',
-		items: [],
-		total: 0
 	};
 	formErrors: FormErrors = {};
 
-    setContactsField(field: keyof IOrderForm, value: string) {
-        this.order[field] = value;
+	setContactsField(field: keyof IOrderForm, value: string) {
+		this.order[field] = value;
 
-        if (this.validateOrderContacts()) {
-            // this.events.emit('order:ready', this.order);
-			this.validateOrderContacts()
-        }
-    }
+		if (this.validateOrderContacts()) {
+			// this.events.emit('order:ready', this.order);
+			this.validateOrderContacts();
+		}
+	}
 
 	setPaymentField(field: keyof IOrderForm, value: string) {
-        this.order[field] = value;
+		this.order[field] = value;
 
-        if (this.validateOrderPayment()) {
-            // this.events.emit('order:ready', this.order);
-			this.validateOrderPayment()
-        }
-    }
+		if (this.validateOrderPayment()) {
+			// this.events.emit('order:ready', this.order);
+			this.validateOrderPayment();
+		}
+	}
 
 	validateOrderContacts() {
 		const errors: typeof this.formErrors = {};
@@ -62,8 +60,14 @@ export class OrderModel extends Model<IOrder> {
 			email: '',
 			phone: '',
 			address: '',
-			total: null,
-			items: [],
 		};
-    }
+	}
+
+	createOrderToPost(items: string[], total: number) {
+		return {
+			...this.order,
+			items,
+			total,
+		};
+	}
 }

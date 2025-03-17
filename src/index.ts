@@ -79,20 +79,15 @@ events.on('preview:changed', (item: IItem) => {
 		onClick: () => {
 			if (appBasket.isInBasket(item)) {
 				appBasket.removeFromBasket(item);
-				// console.log(
-				// 	`Товар удалён из корзины: id ${item.id}, название ${item.title}`
-				// );
 			} else {
 				appBasket.addToBasket(item);
-				// console.log(
-				// 	`Товар добавлен в корзину: id ${item.id}, название ${item.title}`
-				// );
 			}
-			events.emit('basket:change');
-			card.button = appBasket.isInBasket(item);
+			appBasket.basketChange();
+			card.setButton(appBasket.isInBasket(item), item.price);
 		},
 	});
-	card.button = appBasket.isInBasket(item);
+
+	card.setButton(appBasket.isInBasket(item), item.price);
 	return modal.render({
 		content: card.render({
 			title: item.title,
@@ -109,7 +104,6 @@ events.on('basket:open', () => {
 	modal.render({
 		content: basket.render(),
 	});
-	events.emit('basket:change');
 });
 
 // Динамическое изменение корзины
@@ -124,7 +118,7 @@ events.on('basket:change', () => {
 			{
 				onClick: () => {
 					appBasket.removeFromBasket(item);
-					events.emit('basket:change');
+					appBasket.basketChange();
 				},
 			}
 		);
@@ -148,11 +142,13 @@ events.on('basket:change', () => {
 
 // Открытие формы оплаты из корзины
 events.on('formPayment:open', () => {
+	orderPayment.setActiveButtons();
+	order.clearOrder();
 	modal.render({
 		content: orderPayment.render({
 			payment: '',
 			address: '',
-			valid: true,
+			valid: false,
 			errors: [],
 		}),
 	});
@@ -164,7 +160,7 @@ events.on('form:submit', () => {
 		content: orderContacts.render({
 			email: '',
 			phone: '',
-			valid: true,
+			valid: false,
 			errors: [],
 		}),
 	});
@@ -172,25 +168,27 @@ events.on('form:submit', () => {
 
 // Отправка формы с контактами и отправка данных на сервер
 events.on('formContacts:submit', () => {
-	order.order.items = appBasket.getItemsInBasket();
-
-	order.order.total = appBasket
-		.getItemsInBasket()
-		.map((id) => {
-			return appData.findItemById(id)?.price || 0;
-		})
+	const itemsInBasket = appBasket.getItemsInBasket();
+	const orderTotal = itemsInBasket
+		.map((id) => appData.findItemById(id)?.price || 0)
 		.reduce((accum, item) => accum + item, 0);
+
+	// Создаем заказ с помощью метода createOrderToPost
+	const orderToPost = order.createOrderToPost(itemsInBasket, orderTotal);
+
 	api
-		.orderItems(order.order)
+		.orderItems(orderToPost)
 		.then((result) => {
 			order.clearOrder();
 			orderPayment.setActiveButtons();
 			appBasket.clearBasket();
+
 			const success = new Success(cloneTemplate(successTemplate), {
 				onClick: () => {
 					modal.close();
 				},
 			});
+
 			modal.render({
 				content: success.render({
 					total: result.total,
@@ -235,7 +233,7 @@ events.on(
 
 // Очистка корзины
 events.on('basket:cleared', () => {
-	events.emit('basket:change');
+	appBasket.basketChange();
 });
 
 // Блокировка/разблокировка страницы

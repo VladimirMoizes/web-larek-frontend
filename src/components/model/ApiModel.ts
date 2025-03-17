@@ -1,9 +1,9 @@
-import { IItem, IOrder, IOrderResult } from '../../types';
+import { IItem, IOrderForm, IOrderResult } from '../../types';
 import { Api, ApiListResponse } from '../base/api';
 
 export interface IApiModel {
 	getItemList(): Promise<void | IItem[]>;
-	orderItems(order: IOrder): Promise<IOrderResult>;
+	orderItems(order: IOrderForm): Promise<IOrderResult>;
 }
 
 export class ApiModel extends Api implements IApiModel {
@@ -23,7 +23,7 @@ export class ApiModel extends Api implements IApiModel {
 		);
 	}
 
-	orderItems(order: IOrder): Promise<IOrderResult> {
+	orderItems(order: IOrderForm): Promise<IOrderResult> {
 		return this.post('/order', order).then((data: IOrderResult) => data);
 	}
 }

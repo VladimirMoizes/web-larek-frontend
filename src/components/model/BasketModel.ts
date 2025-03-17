@@ -21,6 +21,10 @@ export class BasketModel extends Model<IBasketModel> implements IBasketModel {
 		return this.itemsId;
 	}
 
+	basketChange() {
+		this.events.emit('basket:change');
+	}
+
 	addToBasket(item: IItem) {
 		if (!this.itemsId.includes(item.id)) {
 			this.itemsId.push(item.id);

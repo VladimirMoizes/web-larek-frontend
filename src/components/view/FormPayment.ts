@@ -27,18 +27,14 @@ export class FormPayment extends Form<IFormPayment> {
 
 	protected toggleButtonState(activeButton: HTMLButtonElement) {
 		this._buttonsAlt.forEach((button) => {
-			if (button === activeButton) {
-				button.disabled = true;
-			} else {
-				button.disabled = false;
-			}
+			button.disabled = button === activeButton;
 		});
 	}
 
 	setActiveButtons() {
-		this._buttonsAlt.forEach(button => {
+		this._buttonsAlt.forEach((button) => {
 			button.disabled = false;
-		})
+		});
 	}
 
 	set address(value: string) {
