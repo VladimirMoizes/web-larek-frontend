@@ -1,4 +1,61 @@
-# Проектная работа "Веб-ларек"
+# 🎓 Проектная работа "Веб-ларек" - учебный проект
+
+<div align="center">
+    <img src="./src/images/Subtract.png" width="150" alt="Лого" title="Логотип" style="border-radius: 8px">
+</div>
+
+**Концепция:** Интернет-магазин виртуальных товаров для разработчиков  
+
+#### 🌟 **Ключевые возможности:**
+- 🛍️ Добавление товаров в корзину  
+- ❌ Удаление товаров из корзины  
+- 💳 Полноценное оформление заказа
+  
+Проект выполнен с помощью ООП-подхода с использованием языка TypeScript.
+
+
+### 🤖 Технологии:
+<div align="center" style="display: flex; gap: 10px; justify-content: center; margin: 12px 0;">
+  <a href="https://developer.mozilla.org/ru/docs/Web/HTML" target="_blank">
+    <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg" width="40" height="40" alt="HTML5" style="border-radius:8px">
+  </a>
+  <a href="https://developer.mozilla.org/ru/docs/Web/CSS" target="_blank">
+    <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original.svg" width="40" height="40" alt="CSS3" style="border-radius:8px">
+  </a>
+  <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/640px-Unofficial_JavaScript_logo_2.svg.png" width="40" height="40" alt="CSS3" style="border-radius:8px">
+  </a>
+    <a href="https://www.postman.com/api-documentation-tool/" target="_blank">
+    <img src="https://camo.githubusercontent.com/66653fb9b350122ece0a9db72f67c75ec0316efe11126b7c7e46296ce64e2561/68747470733a2f2f7777772e7376677265706f2e636f6d2f73686f772f3335343230322f706f73746d616e2d69636f6e2e737667" width="40" height="40" alt="Postman" style="border-radius:8px">
+  </a>
+	<a href="https://www.typescriptlang.org/" target="_blank">
+    <img src="https://camo.githubusercontent.com/477414c66dd07c1314d6dafffc981cf1f0c067b071f1a5e6835686d76d9a36c7/68747470733a2f2f63646e2e776f726c64766563746f726c6f676f2e636f6d2f6c6f676f732f747970657363726970742d322e737667" width="40" height="40" alt="TypeScript" style="border-radius:8px">
+  </a>
+	<a href="https://webpack.js.org/" target="_blank">
+    <img src="https://raw.githubusercontent.com/webpack/media/master/logo/icon-square-big.png" width="40" height="40" alt="webpack" style="border-radius:8px">
+  </a>
+</div>
+
+## 🛠 Реализованный функционал
+
+### 🏗 Архитектура
+- Проектирование модульной структуры приложения
+- Оптимизация компонентов для масштабируемости
+
+### 🧠 Бизнес-логика
+- **Работа с корзиной:**
+  - ✅ Добавление товаров
+  - ❌ Удаление товаров
+  - 🔄 Обновление состояния в реальном времени
+
+- **Валидация:**
+  - Проверка форм перед отправкой
+  - Визуальный feedback при ошибках
+
+### 🌐 Работа с API
+- `GET /products` - получение карточек товаров
+- `POST /orders` - отправка данных заказа
+- Обработка ошибок сети
 
 Стек: HTML, SCSS, TS, Webpack
 
@@ -322,7 +379,7 @@ export type IFormContacts = Pick<IOrderForm, 'email' | 'phone'>
 
 #### Класс Form
 
-Общий класс, от которого наследуются формы заказа и контактов.\
+Общий класс, от которого наследуются формы заказа и контактов.
 
 Конструктор:
 
